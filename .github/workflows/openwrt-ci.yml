@@ -53,6 +53,15 @@ jobs:
         run: |
           rm -f ./.config*
           touch ./.config
+          
+      - name: 自定义插件主题。
+        run: |
+          cd package
+          mkdir openwrt-packages
+          cd openwrt-packages
+          git clone https://github.com/openwrt-develop/luci-theme-atmaterial.git
+          git clone https://github.com/Ameykyl/luci-app-koolproxyR
+          git clone https://github.com/rosywrt/luci-theme-rosy
 
           #
           # ========================固件定制部分========================
@@ -100,15 +109,15 @@ jobs:
           # EOF
 
           # 编译UEFI固件:
-          # cat >> .config <<EOF
-          # CONFIG_EFI_IMAGES=y
-          # EOF
+          cat >> .config <<EOF
+          CONFIG_EFI_IMAGES=y
+          EOF
 
           # IPv6支持:
-          # cat >> .config <<EOF
-          # CONFIG_PACKAGE_dnsmasq_full_dhcpv6=y
-          # CONFIG_PACKAGE_ipv6helper=y
-          # EOF
+          cat >> .config <<EOF
+          CONFIG_PACKAGE_dnsmasq_full_dhcpv6=y
+          CONFIG_PACKAGE_ipv6helper=y
+          EOF
 
           # 多文件系统支持:
           cat >> .config <<EOF
@@ -121,13 +130,13 @@ jobs:
           EOF
 
           # USB3.0支持:
-          # cat >> .config <<EOF
-          # CONFIG_PACKAGE_kmod-usb-ohci=y
-          # CONFIG_PACKAGE_kmod-usb-ohci-pci=y
-          # CONFIG_PACKAGE_kmod-usb2=y
-          # CONFIG_PACKAGE_kmod-usb2-pci=y
-          # CONFIG_PACKAGE_kmod-usb3=y
-          # EOF
+          cat >> .config <<EOF
+          CONFIG_PACKAGE_kmod-usb-ohci=y
+          CONFIG_PACKAGE_kmod-usb-ohci-pci=y
+          CONFIG_PACKAGE_kmod-usb2=y
+          CONFIG_PACKAGE_kmod-usb2-pci=y
+          CONFIG_PACKAGE_kmod-usb3=y
+          EOF
 
           # 常用LuCI插件选择:
           cat >> .config <<EOF
@@ -153,6 +162,9 @@ jobs:
           CONFIG_PACKAGE_luci-app-webadmin=y
           CONFIG_PACKAGE_luci-app-wireguard=y
           CONFIG_PACKAGE_luci-app-wrtbwmon=y
+          CONFIG_PACKAGE_luci-app-aliddns=y
+          CONFIG_PACKAGE_luci-app-statistics=y
+          CONFIG_PACKAGE_luci-app-transmission=y
           EOF
 
           # LuCI主题:
@@ -162,21 +174,21 @@ jobs:
           EOF
 
           # 常用软件包:
-          # cat >> .config <<EOF
-          # CONFIG_PACKAGE_curl=y
-          # CONFIG_PACKAGE_htop=y
-          # CONFIG_PACKAGE_nano=y
-          # CONFIG_PACKAGE_screen=y
-          # CONFIG_PACKAGE_tree=y
-          # CONFIG_PACKAGE_vim-fuller=y
-          # CONFIG_PACKAGE_wget=y
-          # EOF
+          cat >> .config <<EOF
+          CONFIG_PACKAGE_curl=y
+          CONFIG_PACKAGE_htop=y
+          CONFIG_PACKAGE_nano=y
+          CONFIG_PACKAGE_screen=y
+          CONFIG_PACKAGE_tree=y
+          CONFIG_PACKAGE_vim-fuller=y
+          CONFIG_PACKAGE_wget=y
+          EOF
 
           # 取消编译VMware镜像以及镜像填充 (不要删除被缩进的注释符号):
-          # cat >> .config <<EOF
-          # # CONFIG_TARGET_IMAGES_PAD is not set
-          # # CONFIG_VMDK_IMAGES is not set
-          # EOF
+          cat >> .config <<EOF
+          # CONFIG_TARGET_IMAGES_PAD is not set
+          # CONFIG_VMDK_IMAGES is not set
+          EOF
 
           # 
           # ========================固件定制部分结束========================
